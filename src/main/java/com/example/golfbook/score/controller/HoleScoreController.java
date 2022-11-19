@@ -37,17 +37,12 @@ public class HoleScoreController {
     @PostMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HoleScore> addHoleScore(
             @RequestBody HoleScoreDto holeScoreDto,
-            Model model,
-            HttpSession httpSession,
             HttpServletRequest httpServletRequest) {
         String userId = httpServletRequest.getRemoteUser();
-        Map<String, UUID> userIDMap = (Map<String, UUID>) httpSession.getAttribute("currentRounds");
-        UUID currentRound = userIDMap.get(userId);
-        holeScoreDto.setRoundId(currentRound);
-        if (currentRound == null) {
-            throw new IllegalStateException("Round Not Set for session");
-        }
 
-        return new ResponseEntity<>(holeScoreService.insertHoleScore(holeScoreDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(
+                holeScoreService.insertHoleScore(holeScoreDto, userId),
+                HttpStatus.CREATED
+        );
     }
 }

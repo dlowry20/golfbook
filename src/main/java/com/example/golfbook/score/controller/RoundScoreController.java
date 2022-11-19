@@ -35,7 +35,6 @@ public class RoundScoreController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RoundScore> addRoundScore(
             @RequestBody RoundScoreDto roundScoreDto,
-            Model model,
             HttpServletRequest httpServletRequest
     ) {
         RoundScore roundScore = roundScoreService.insertRoundScore(roundScoreDto);

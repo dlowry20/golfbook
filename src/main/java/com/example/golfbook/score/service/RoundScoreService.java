@@ -16,9 +16,14 @@ import java.util.UUID;
 public class RoundScoreService {
 
     private final RoundScoreRepository roundScoreRepository;
+    private final CurrentRoundService currentRoundService;
 
-    public RoundScoreService(RoundScoreRepository roundScoreRepository) {
+    public RoundScoreService(
+            RoundScoreRepository roundScoreRepository,
+            CurrentRoundService currentRoundService
+    ) {
         this.roundScoreRepository = roundScoreRepository;
+        this.currentRoundService = currentRoundService;
     }
 
     public Optional<RoundScore> getRoundScoreById(BigInteger courseId, UUID roundId) {
@@ -37,6 +42,7 @@ public class RoundScoreService {
         return roundScoreRepository.findAllByDatePlayed(datePlayed);
     }
 
+    // @Transactional - TODO - this should be transactional.
     public RoundScore insertRoundScore(RoundScoreDto roundScoreDto) {
         RoundScore roundScore = RoundScore.builder()
                 .courseId(roundScoreDto.getCourseId())
@@ -48,6 +54,12 @@ public class RoundScoreService {
                 .par(roundScoreDto.getCoursePar())
                 .courseName(roundScoreDto.getCourseName())
                 .build();
+        currentRoundService.insertCurrentRound(
+                roundScore.getUserId(),
+                roundScore.getRoundId(),
+                roundScore.getCourseId(),
+                roundScoreDto.getTournamentId()
+        );
         return roundScoreRepository.save(roundScore);
     }
 }

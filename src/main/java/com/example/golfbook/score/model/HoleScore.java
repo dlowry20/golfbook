@@ -26,6 +26,7 @@ public class HoleScore {
     private UUID roundId;
     @Id
     private int holeNumber;
+    private String userId;
     private int par;
     private int score;
     private boolean gir;
@@ -36,9 +37,10 @@ public class HoleScore {
             BigInteger courseId,
             UUID roundId,
             int holeNumber,
+            String userId,
             int par,
             int score
             ) {
-        new HoleScore(courseId, roundId, holeNumber, par, score, false, false, 0);
+        new HoleScore(courseId, roundId, holeNumber, userId, par, score, false, false, 0);
     }
 }

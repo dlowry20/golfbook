@@ -1,6 +1,7 @@
 package com.example.golfbook.score.service;
 
 import com.example.golfbook.score.dto.HoleScoreDto;
+import com.example.golfbook.score.model.CurrentRound;
 import com.example.golfbook.score.model.HoleScore;
 import com.example.golfbook.score.model.RoundScore;
 import com.example.golfbook.score.model.id.HoleScoreId;
@@ -19,12 +20,15 @@ public class HoleScoreService {
     // I think this is a sign we need another class to handle the databases.
     private final HoleScoreRepository holeScoreRepository;
     private final RoundScoreService roundScoreService;
+    private final CurrentRoundService currentRoundService;
 
     public HoleScoreService(HoleScoreRepository holeScoreRepository,
-                            RoundScoreService roundScoreService
+                            RoundScoreService roundScoreService,
+                            CurrentRoundService currentRoundService
     ) {
         this.holeScoreRepository = holeScoreRepository;
         this.roundScoreService = roundScoreService;
+        this.currentRoundService = currentRoundService;
     }
 
     public Optional<HoleScore> getHoleScoreById(
@@ -40,27 +44,39 @@ public class HoleScoreService {
     }
 
     // TODO: Make this action all one transaction.
-    public HoleScore insertHoleScore(HoleScoreDto holeScoreDto) {
+    public HoleScore insertHoleScore(HoleScoreDto holeScoreDto, String userId) {
+        CurrentRound currentRound = currentRoundService.getCurrentRound(userId);
         HoleScore holeScore = holeScoreRepository.save(
             HoleScore.builder()
                     .courseId(holeScoreDto.getCourseId())
-                    .roundId(holeScoreDto.getRoundId())
+                    .roundId(currentRound.getRoundId())
                     .holeNumber(holeScoreDto.getHoleNumber())
                     .par(holeScoreDto.getPar())
+                    .userId(currentRound.getUserId())
                     .score(holeScoreDto.getScore())
                     .gir(holeScoreDto.isGir())
                     .fairway(holeScoreDto.isFairway())
                     .putts(holeScoreDto.getPutts())
                     .build()
         );
+        updateRoundScore(currentRound.getCourseId(), currentRound.getRoundId(), holeScore.getScore());
+        updateCurrentRound(currentRound, holeScoreDto.getPar(), holeScore.getScore());
+        return holeScore;
+    }
+
+    private void updateRoundScore(BigInteger courseId, UUID roundId, int score) {
         RoundScore roundScore = roundScoreService.getRoundScoreById(
-                holeScore.getCourseId(),
-                holeScore.getRoundId()
+                courseId,
+                roundId
         ).orElseThrow(() -> new IllegalStateException("Cannot add a score to a round that does not exist"));
 
-        roundScore.setRoundScore(roundScore.getRoundScore() + holeScore.getScore());
+        roundScore.setRoundScore(roundScore.getRoundScore() + score);
         roundScoreService.updateRoundScore(roundScore);
-        return holeScore;
+    }
 
+    private void updateCurrentRound(CurrentRound currentRound, int par, int score) {
+        currentRound.setHolesPlayed(currentRound.getHolesPlayed() + 1);
+        currentRound.setRelationToPar(currentRound.getRelationToPar() + (score - par));
+        currentRoundService.updateCurrentRound(currentRound);
     }
 }

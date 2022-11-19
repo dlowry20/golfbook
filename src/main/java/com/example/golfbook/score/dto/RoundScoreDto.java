@@ -16,4 +16,5 @@ public class RoundScoreDto {
     private int score;
     private int coursePar;
     private String userId;
+    private int tournamentId;
 }
