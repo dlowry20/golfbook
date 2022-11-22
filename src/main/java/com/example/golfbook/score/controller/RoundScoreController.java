@@ -32,7 +32,7 @@ public class RoundScoreController {
         this.roundScoreService = roundScoreService;
     }
 
-    @CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true")
+//    @CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true")
     @PostMapping(path = "/",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RoundScore> addRoundScore(
@@ -41,7 +41,6 @@ public class RoundScoreController {
     ) {
         RoundScore roundScore = roundScoreService.insertRoundScore(roundScoreDto);
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccessControlAllowOrigin("http://localhost:5173");
         return new ResponseEntity<>(
                 roundScore,
                 headers, HttpStatus.CREATED);

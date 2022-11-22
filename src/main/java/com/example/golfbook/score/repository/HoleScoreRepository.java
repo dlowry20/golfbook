@@ -10,4 +10,5 @@ import java.util.UUID;
 
 public interface HoleScoreRepository extends CrudRepository<HoleScore, HoleScoreId> {
     List<HoleScore> findAllByCourseIdAndRoundId(BigInteger courseId, UUID roundId);
+    List<HoleScore> findAllByRoundId(UUID roundId);
 }

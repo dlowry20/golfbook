@@ -9,9 +9,11 @@ import com.example.golfbook.score.repository.HoleScoreRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class HoleScoreService {
@@ -41,6 +43,20 @@ public class HoleScoreService {
 
     public List<HoleScore> getAllScoresByRound(BigInteger courseId, UUID roundId) {
         return holeScoreRepository.findAllByCourseIdAndRoundId(courseId, roundId);
+    }
+
+    public List<HoleScore> getAllScoresByRoundId(UUID roundId) {
+        return holeScoreRepository.findAllByRoundId(roundId);
+    }
+
+    public List<HoleScoreDto> getAllScoresByCurrentRound(String userId) {
+        CurrentRound currentRound = currentRoundService.getCurrentRound(userId);
+        List<HoleScore> holeScores = holeScoreRepository.findAllByRoundId(currentRound.getRoundId());
+
+        return holeScores.stream()
+                .map(HoleScoreDto::new)
+                .sorted(Comparator.comparing(HoleScoreDto::getHoleNumber))
+                .collect(Collectors.toList());
     }
 
     // TODO: Make this action all one transaction.
