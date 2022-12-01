@@ -8,17 +8,17 @@ import java.math.BigInteger;
 
 @Getter
 @AllArgsConstructor
-public class HolesDto {
+public class HoleDto {
     private final BigInteger holesId;
-    private final BigInteger courseId;
     private final int holeNum;
     private final int holePar;
+    private final BigInteger courseId;
 
 
-    public HolesDto(Hole hole) {
+    public HoleDto(Hole hole) {
         this.holesId = hole.getHolesId();
-        this.courseId = hole.getCourseId();
         this.holeNum = hole.getHoleNum();
         this.holePar = hole.getHolePar();
+        this.courseId = hole.getCourseId();
     }
 }

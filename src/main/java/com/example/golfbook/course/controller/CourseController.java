@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.rmi.ServerException;
+import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -18,30 +20,34 @@ import java.rmi.ServerException;
 public class CourseController {
 
     private CourseService courseService;
-    private CourseRepository courseRepository;
 
     public CourseController(CourseService courseService) {
         this.courseService = courseService;
     }
 
 
-    @PostMapping(path="/add_course", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Course> addCourse(@RequestBody Course newCourse) throws ServerException {
-        Course course = courseRepository.save(newCourse);
-        if(course == null) {
-            throw new ServerException("Course was not created");
-        } else {
-            return new ResponseEntity<>(course, HttpStatus.CREATED);
-        }
+    @PostMapping("/")
+    public Course createCourse(Course c) {
+        return courseService.createNewCourse(c);
     }
 
-    @GetMapping(path="/get_course", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> getCourse(HttpServletRequest httpServletRequest) {
-        return new ResponseEntity<Object>(courseService.getAllByCourseId(), HttpStatus.OK);
+    @GetMapping("/courses")
+    public List<Course> getAllCourses() {
+        return courseService.getAllCourses();
+    }
+
+    @GetMapping("/courses/{id}")
+    public Optional<Course> getCourse(@PathVariable BigInteger id) {
+        return courseService.findCourseById(id);
+    }
+
+    @PutMapping("/courses/{id}")
+    public Course editCourse(@RequestBody Course c, @PathVariable BigInteger id) {
+        return courseService.editCourse(c, id);
     }
 
     @DeleteMapping("/courses/{id}")
     public void deleteCourse(@PathVariable BigInteger id) {
-        courseRepository.deleteById(id);
+        courseService.deleteCourse(id);
     }
 }
