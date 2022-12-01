@@ -11,14 +11,14 @@ import java.math.BigInteger;
 public class HolesDto {
     private final BigInteger holesId;
     private final BigInteger courseId;
-    private final int holeNum;
+    private final int holeNumber;
     private final int holePar;
 
 
     public HolesDto(Hole hole) {
-        this.holesId = hole.getHolesId();
+        this.holesId = BigInteger.ZERO;
         this.courseId = hole.getCourseId();
-        this.holeNum = hole.getHoleNum();
+        this.holeNumber = hole.getHoleNumber();
         this.holePar = hole.getHolePar();
     }
 }

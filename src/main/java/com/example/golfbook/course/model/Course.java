@@ -20,5 +20,4 @@ public class Course {
     private String courseName;
     @Setter
     private int par;
-    private BigInteger holesId;
 }

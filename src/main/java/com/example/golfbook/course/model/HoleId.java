@@ -1,25 +1,19 @@
 package com.example.golfbook.course.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
+import java.io.Serializable;
 import java.math.BigInteger;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
-@Builder
-@IdClass(HoleId.class)
-public class Hole {
-
-    @Id
+@Getter
+public class HoleId implements Serializable {
     private BigInteger courseId;
-    @Id
     private int holeNumber;
-    private int holePar;
-
 }

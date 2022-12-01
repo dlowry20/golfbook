@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface CourseRepository extends CrudRepository<Course, BigInteger> {
 
-    List<Course> getAllByCourseId();
+//    List<Course> getAllByCourseId();
 }

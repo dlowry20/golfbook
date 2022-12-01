@@ -1,0 +1,1 @@
+alter table hole_score add column user_id varchar(60);

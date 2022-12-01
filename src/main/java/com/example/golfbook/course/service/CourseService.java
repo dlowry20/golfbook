@@ -19,7 +19,7 @@ public class CourseService {
     public List<Course> getAllByCourseId(){
         Iterable<Course> courses = this.courseRepository.findAll();
         List<Course> courseList = new ArrayList<>();
-        courses.forEach(course->{courseList.add(course);});
+        courses.forEach(courseList::add);
         return courseList;
     }
 

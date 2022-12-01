@@ -13,12 +13,10 @@ public class CourseDto {
     private final BigInteger courseId;
     private final String courseName;
     private final int par;
-    private final BigInteger holesId;
 
     public CourseDto(Course course) {
         this.courseId = course.getCourseId();
         this.courseName = course.getCourseName();
         this.par = course.getPar();
-        this.holesId = course.getHolesId();
     }
 }
