@@ -10,15 +10,17 @@ import java.math.BigInteger;
 @AllArgsConstructor
 public class HoleDto {
     private final BigInteger holesId;
+    private final BigInteger courseId;
     private final int holeNum;
     private final int holePar;
-    private final BigInteger courseId;
+
 
 
     public HoleDto(Hole hole) {
-        this.holesId = hole.getHolesId();
-        this.holeNum = hole.getHoleNum();
-        this.holePar = hole.getHolePar();
+        this.holesId = BigInteger.ZERO;
         this.courseId = hole.getCourseId();
+        this.holeNum = hole.getHoleNumber();
+        this.holePar = hole.getHolePar();
+
     }
 }
