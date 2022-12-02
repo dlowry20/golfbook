@@ -1,5 +1,6 @@
 package com.example.golfbook.course.service;
 
+import com.example.golfbook.course.dto.CourseDto;
 import com.example.golfbook.course.model.Course;
 import com.example.golfbook.course.repository.CourseRepository;
 import org.springframework.http.HttpStatus;
@@ -23,12 +24,13 @@ public class CourseService {
     public ResponseEntity<Course> createNewCourse(Course course) {
         try {
             Course _course = courseRepository
-                    .save(new Course(course.getCourseId(), course.getCourseName(), course.getPar()));
+                    .save(course);
             return new ResponseEntity<>(_course, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     public ResponseEntity<List<Course>> findAllCourses() {
         try {
             Iterable<Course> courses = this.courseRepository.findAll();
@@ -61,6 +63,17 @@ public class CourseService {
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
+    }
+
+    public Course insertCourse(CourseDto courseDto) {
+        Course course = courseRepository.save(
+                Course.builder()
+                        .courseId(courseDto.getCourseId())
+                        .courseName(courseDto.getCourseName())
+                        .par(courseDto.getPar())
+                        .build()
+        );
+        return course;
     }
 
 

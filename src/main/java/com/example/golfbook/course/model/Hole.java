@@ -16,7 +16,7 @@ import java.math.BigInteger;
 @Setter
 @Builder
 @IdClass(HoleId.class)
-public class Hole implements Serializable {
+public class Hole {
 
     @Id
     private BigInteger courseId;

@@ -1,5 +1,6 @@
 package com.example.golfbook.course.controller;
 
+import com.example.golfbook.course.dto.CourseDto;
 import com.example.golfbook.course.model.Course;
 import com.example.golfbook.course.repository.CourseRepository;
 import com.example.golfbook.course.service.CourseService;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
-@Controller
+@RestController
 @RequestMapping("/courses")
 public class CourseController {
 
@@ -29,26 +30,25 @@ public class CourseController {
     }
 
 
-    @PostMapping("/courses")
+    @CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true")
+    @PostMapping(path="/",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Course> createNewCourse(@RequestBody Course course) {
         return courseService.createNewCourse(course);
     }
 
-    @GetMapping("/courses")
+    @CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true")
+    @GetMapping("/")
     public ResponseEntity<List<Course>> getAllCourses() {
         return courseService.findAllCourses();
 
     }
 
-    @GetMapping("/courses/{id}")
+    @CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true")
+    @GetMapping("/{id}")
     public ResponseEntity<Course> getCourseById(@PathVariable("id") BigInteger id) {
         return courseService.findCourseById(id);
     }
 
-
-    @PutMapping("/courses/{id}")
-    public ResponseEntity<Course> updateCourse(@PathVariable("id") BigInteger id, @RequestBody Course course) {
-        return courseService.updateCourse(id, course);
-    }
 
 }

@@ -2,7 +2,7 @@ package com.example.golfbook.course.controller;
 
 import com.example.golfbook.course.model.Course;
 import com.example.golfbook.course.model.Hole;
-import com.example.golfbook.course.repository.HoleRepository;
+import com.example.golfbook.course.model.HoleId;
 import com.example.golfbook.course.service.HoleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -19,30 +18,26 @@ import java.util.Optional;
 public class HoleController {
     private HoleService holeService;
 
-    @PostMapping("/")
-    public Hole createNewHole(Hole h) {
+    public HoleController(HoleService holeservice) {
+        this.holeService = holeservice;
+    }
+
+    @CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true")
+    @PostMapping(path="/",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Hole> createNewHole(@RequestBody Hole h) {
         return holeService.createNewHole(h);
     }
 
-    @GetMapping("/holes/{id}")
-    public Optional<Hole> getHoleById(@PathVariable BigInteger id) {
-        return holeService.findHoleById(id);
+    @CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true")
+    @GetMapping("/all/{id}")
+    public ResponseEntity<List<Hole>>  getAllHolesByCourseId(@PathVariable BigInteger id) {
+        return holeService.findHolesByCourseId(id);
     }
-
-    @GetMapping("/holes/all/{id}")
-    public List<Hole> getAllHolesByCourseId(@PathVariable BigInteger id) {
-        return holeService.findAllHolesByCourse(id);
+    @CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true")
+    @GetMapping("/hole/{id}/{holeNumber}")
+    public ResponseEntity<List<Hole>> getSingleCourse(@PathVariable BigInteger id, @PathVariable int holeNumber) {
+        return holeService.findSingleHole(id, holeNumber);
     }
-
-    @PutMapping("/holes/{id}")
-    public Hole editHole(@RequestBody Hole hole, @PathVariable BigInteger id) {
-        return holeService.editHolePar(hole, id);
-    }
-
-    @DeleteMapping("/holes/{id}")
-    public void deleteHole(@PathVariable BigInteger id) {
-        holeService.deleteHole(id);
-    }
-    //Need to add a way to delete all holes associated with a CourseId
 
 }
