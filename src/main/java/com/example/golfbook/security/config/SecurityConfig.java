@@ -55,7 +55,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/hole_score", "/round_score").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/hole_score", "/round_score", "/courses", "/holes").hasRole("ADMIN")
                 .and()
                 .httpBasic();
         return http.build();
