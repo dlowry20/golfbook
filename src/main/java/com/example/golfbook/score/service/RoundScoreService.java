@@ -43,14 +43,14 @@ public class RoundScoreService {
     }
 
     // @Transactional - TODO - this should be transactional.
-    public RoundScore insertRoundScore(RoundScoreDto roundScoreDto) {
+    public RoundScore insertRoundScore(RoundScoreDto roundScoreDto, String userName) {
         RoundScore roundScore = RoundScore.builder()
                 .courseId(roundScoreDto.getCourseId())
                 .roundScore(roundScoreDto.getScore())
                 .roundId(UUID.randomUUID())
                 .par(roundScoreDto.getCoursePar())
                 .datePlayed(roundScoreDto.getDatePlayed())
-                .userId(roundScoreDto.getUserId()) // TODO : I think there should be a way to get the authenticated user
+                .userId(userName)
                 .par(roundScoreDto.getCoursePar())
                 .courseName(roundScoreDto.getCourseName())
                 .build();

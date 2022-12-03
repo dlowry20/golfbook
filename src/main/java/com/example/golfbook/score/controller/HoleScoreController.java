@@ -50,9 +50,6 @@ public class HoleScoreController {
     public ResponseEntity<List<HoleScoreDto>> getHoleScores(
             HttpServletRequest httpServletRequest) {
         String userId = httpServletRequest.getRemoteUser();
-        if (userId == null) {
-            userId = "user1";
-        }
         return new ResponseEntity<>(
                 holeScoreService.getAllScoresByCurrentRound(userId),
                 HttpStatus.OK

@@ -39,7 +39,9 @@ public class RoundScoreController {
             @RequestBody RoundScoreDto roundScoreDto,
             HttpServletRequest httpServletRequest
     ) {
-        RoundScore roundScore = roundScoreService.insertRoundScore(roundScoreDto);
+        RoundScore roundScore = roundScoreService.insertRoundScore(
+                roundScoreDto, httpServletRequest.getRemoteUser()
+        );
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(
                 roundScore,
