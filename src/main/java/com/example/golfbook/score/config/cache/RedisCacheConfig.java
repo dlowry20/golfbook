@@ -20,10 +20,17 @@ public class RedisCacheConfig {
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
     }
 
-    @Bean
+    @Bean("currentRoundCache")
     public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
         return (builder) -> builder
                 .withCacheConfiguration("currentRoundCache",
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(300)));
+    }
+
+    @Bean("courseCache")
+    public RedisCacheManagerBuilderCustomizer courseCacheCustomizer() {
+        return (builder) -> builder
+                .withCacheConfiguration("courseCache",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(300)));
     }
 }
