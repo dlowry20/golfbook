@@ -14,6 +14,7 @@ public class CourseDto {
     private final String courseName;
     private final int par;
 
+
     public CourseDto(Course course) {
         this.courseId = course.getCourseId();
         this.courseName = course.getCourseName();

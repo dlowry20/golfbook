@@ -3,8 +3,10 @@ package com.example.golfbook.course.model;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import java.io.Serializable;
 import java.math.BigInteger;
 
 @Entity
@@ -21,5 +23,4 @@ public class Hole {
     @Id
     private int holeNumber;
     private int holePar;
-
 }
