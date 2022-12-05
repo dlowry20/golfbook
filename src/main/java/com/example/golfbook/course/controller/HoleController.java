@@ -40,4 +40,11 @@ public class HoleController {
         return holeService.findSingleHole(id, holeNumber);
     }
 
+    @CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true")
+    @GetMapping("/")
+    public ResponseEntity<List<Hole>> getAllHoles() {
+        return holeService.findAllHoles();
+
+    }
+
 }
