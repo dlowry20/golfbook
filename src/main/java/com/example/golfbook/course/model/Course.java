@@ -24,5 +24,5 @@ public class Course implements Serializable {
     private String courseName;
     @Setter
     private int par;
-
+    private BigInteger holesId;
 }

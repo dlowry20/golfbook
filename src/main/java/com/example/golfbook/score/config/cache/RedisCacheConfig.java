@@ -1,9 +1,6 @@
-package com.example.golfbook.course.config.cache;
+package com.example.golfbook.score.config.cache;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
-import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -23,8 +20,15 @@ public class RedisCacheConfig {
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
     }
 
-    @Bean
+    @Bean("currentRoundCache")
     public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
+        return (builder) -> builder
+                .withCacheConfiguration("currentRoundCache",
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(300)));
+    }
+
+    @Bean("courseCache")
+    public RedisCacheManagerBuilderCustomizer courseCacheCustomizer() {
         return (builder) -> builder
                 .withCacheConfiguration("courseCache",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(300)));
