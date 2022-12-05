@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-@CrossOrigin(origins = {"http://localhost:5173"})
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
 @RequestMapping("/round_score")
 public class RoundScoreController {
 
@@ -32,7 +32,7 @@ public class RoundScoreController {
         this.roundScoreService = roundScoreService;
     }
 
-//    @CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true")
+//    @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"}, allowCredentials = "true")
     @PostMapping(path = "/",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RoundScore> addRoundScore(
@@ -48,7 +48,7 @@ public class RoundScoreController {
                 headers, HttpStatus.CREATED);
     }
 
-    @CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true")
+    @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"}, allowCredentials = "true")
     @PostMapping(path = "/post",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> testPost() {
