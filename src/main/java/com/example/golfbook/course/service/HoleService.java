@@ -1,5 +1,6 @@
 package com.example.golfbook.course.service;
 
+import com.example.golfbook.course.model.Course;
 import com.example.golfbook.course.model.Hole;
 import com.example.golfbook.course.model.HoleId;
 import com.example.golfbook.course.repository.HoleRepository;
@@ -26,6 +27,17 @@ public class HoleService {
             Hole _hole = holeRepository
                     .save(hole);
             return new ResponseEntity<>(_hole, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity<List<Hole>> findAllHoles() {
+        try {
+            Iterable<Hole> holes = this.holeRepository.findAll();
+            List<Hole> holeList = new ArrayList<>();
+            holes.forEach(hole->{holeList.add(hole);});
+            return new ResponseEntity<>(holeList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
