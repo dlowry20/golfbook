@@ -39,6 +39,13 @@ public class CurrentRoundService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = "currentRoundCache")
+    public CurrentRoundDto getCurrentRoundByUser(String userName) {
+        return currentRoundRepository.findById(userName)
+                .map(CurrentRoundDto::new)
+                .orElse(null);
+    }
+
     public CurrentRound insertCurrentRound(
             String userId,
             UUID roundId,

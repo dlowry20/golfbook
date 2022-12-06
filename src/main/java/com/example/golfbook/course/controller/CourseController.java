@@ -50,5 +50,11 @@ public class CourseController {
         return courseService.findCourseById(id);
     }
 
+    @CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true")
+    @GetMapping("/name/{courseName}")
+    public ResponseEntity<Course> getCourseByName(@PathVariable("courseName") String courseName) {
+        return courseService.findCourseByName(courseName);
+    }
+
 
 }

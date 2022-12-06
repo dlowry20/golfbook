@@ -52,6 +52,13 @@ public class CourseService {
         }
     }
 
+    public ResponseEntity<Course> findCourseByName(String courseName) {
+
+        return courseRepository.findFirstByCourseName(courseName)
+                .map(course -> new ResponseEntity<>(course, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+    }
+
     public ResponseEntity<Course> updateCourse(BigInteger id, Course newCourse) {
         Optional<Course> courseData = courseRepository.findById(id);
 

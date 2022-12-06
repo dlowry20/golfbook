@@ -24,7 +24,7 @@ public class JwtTokenService {
     public String generateToken(UserDetails userDetails) {
         return JWT.create()
                 .withSubject(userDetails.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 430000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 4300000))
                 .sign(hmac512);
     }
 
