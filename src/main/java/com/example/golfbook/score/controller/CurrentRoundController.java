@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
@@ -35,4 +36,15 @@ public class CurrentRoundController {
         );
     }
 
+    @GetMapping("/find_by_user")
+    public ResponseEntity<CurrentRoundDto> getCurrentRound(
+            HttpServletRequest httpServletRequest
+    ) {
+        CurrentRoundDto currentRoundDto = currentRoundService.getCurrentRoundByUser(httpServletRequest.getRemoteUser());
+        if (currentRoundDto == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(currentRoundDto, HttpStatus.OK);
+        }
+    }
 }
