@@ -18,6 +18,7 @@ import java.math.BigInteger;
 public class Course implements Serializable {
 
     @Id
+    @GeneratedValue
     private BigInteger courseId;
     @Setter
     private String courseName;
